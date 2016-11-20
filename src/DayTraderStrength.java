@@ -51,7 +51,18 @@ public class DayTraderStrength {
 	 * @return int strength
 	 */
 	public int algorithmAforStrength(int[] profits){
-		return 0;
+		//Vars
+		int sum = 0;
+		int curmax = 0;
+		
+		for(int i=1;i<profits.length;i++){
+			for(int n=0;n+i<profits.length;n++){
+				sum =sumSubArray(n,n+i,profits);
+				if (curmax < sum)
+					curmax = sum;
+			}
+		}
+		return curmax;
 	}
 	
 	/**
@@ -71,6 +82,16 @@ public class DayTraderStrength {
 			maximum = Math.max(maximum, sum);
 		}
 		return maximum;
+	}
+	
+	//Method to sum subarray of an array
+	private int sumSubArray(int a,int b, int[] arr) {
+		int sum = 0;
+		
+		for(int i=a;i<b;i++) {
+			sum = sum + arr[i];
+		}
+		return sum;
 	}
 	
 	//Auto-generated getters and setters
