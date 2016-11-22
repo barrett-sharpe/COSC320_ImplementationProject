@@ -1,18 +1,17 @@
 /*
- * Day Trader Strength
- * 
- * Purpose:
- * 
- * COSC 320 - Analysis of Algorithms
+ * File: 	DayTraderStrength.java
+ * Purpose: This file represents a class containing the algorithms (and helper methods) required
+ * 			to satisfy the parameters of the Project Page (see below).
+ * Date: 	November 2016
+ * Course: 	COSC 320 - Analysis of Algorithms
  * Project Page: https://people.ok.ubc.ca/yongg/teaching/cosc320/projects/project-design-and-implementation-tasks.pdf
- * November, 2016
  * 
- * Written By (Group 6):
- * - Barrett 
- * - Brooke
- * - Mark
- * - Mitch
- * - Zack
+ * Authors: (Group 6)
+ * 			Barrett 
+ * 			Brooke
+ * 			Mark
+ * 			Mitch
+ * 			Zack
  */
 public class DayTraderStrength {
 	
@@ -86,8 +85,7 @@ public class DayTraderStrength {
 	
 	//Method to sum subarray of an array
 	private int sumSubArray(int a,int b, int[] arr) {
-		int sum = 0;
-		
+		int sum = 0;	
 		for(int i=a;i<b;i++) {
 			sum = sum + arr[i];
 		}
@@ -95,9 +93,9 @@ public class DayTraderStrength {
 	}
 	
 	//Auto-generated getters and setters
-	public Integer getRANGE() {	return RANGE;	}
-	public void setRANGE(Integer rANGE) {	RANGE = rANGE;	}
-	public Integer getCOST() {	return COST;	}
-	public void setCOST(Integer cOST) {		COST = cOST;	}
+	public Integer getRANGE() {return RANGE;}
+	public void setRANGE(Integer rANGE) {RANGE = rANGE;}
+	public Integer getCOST() {return COST;}
+	public void setCOST(Integer cOST) {COST = cOST;}
 	
-}
+}//class
