@@ -43,69 +43,12 @@ public class DayTraderStrength {
 		
 		return max;
 	}
-
-//	public int algorithmBforStrength(int [] profits)
-//	{
-//		// Get simplified profits (sequential positive and negative days are added together).
-//		ArrayList<Integer> condensedProfits = simplify(profits);
-//		
-//		// First entry is always positive, so the potentialMax is set to that.
-//		int potentialMax = condensedProfits.get(0);
-//		
-//		int lastMax = 0;
-//		
-//		/***************
-//		 * MAIN LOOP
-//		 * For each entry of condensedProfits (alternating between positive and negative),
-//		 * if the next negative and positive combine to be an improvement on potentialMax (i.e. are > 0)
-//		 * AND the current potentialMax is greater than the absolute value of the next negative,
-//		 * then combining all three get you the highest possible potentialMax so far.
-//		 * If the next negative and positive combine to less than 0, then the consecutive chain is broken
-//		 * and the current potentialMax is stored away (lastMax) to be checked against the next potentialMax
-//		 * either when the next consecutive chain is broken, or we reach the end of the condensedProfits
-//		 * list. If potentialMax > lastMax, lastMax gets the value of potentialMax. Then, finally, we return
-//		 * the greater of lastMax or potentialMax.
-//		 */
-//		
-//		int i = 0;
-//		
-//		// Only need to go through the loop if there is a next negative and positive left to check.
-//		while (i < condensedProfits.size() - 2)
-//		{
-//			// Setting quick-to-reference integers for next two values (since we always start with a positive,
-//			// and then alternate, we can know which is which).
-//			int neg = condensedProfits.get(i+1);
-//			int pos = condensedProfits.get(i+2);
-//			
-//			// If the two together will improve potentialMax...
-//			if (neg + pos >= 0)
-//			{
-//				// and if max + neg > 0...
-//				if (potentialMax + neg > 0)
-//				{
-//					// then max + neg + pos is a greater consecutive sum than either max or pos alone.
-//					potentialMax += neg + pos;
-//				}
-//				// else max + neg <= 0. So pos alone is at least as high as current max,
-//				else
-//				{
-//					potentialMax = pos;
-//				}
-//			}
-//			// neg is more negative than pos is positive.
-//			else
-//			{
-//				// make lastMax the greater of itself or potentialMax
-//				lastMax = Math.max(lastMax, potentialMax);
-//				potentialMax = pos;
-//			}
-//			
-//			// iterate by two (so we are looking at the next neg/pos pair, if both exist)
-//			i = i + 2;
-//		}
-//		
-//		return Math.max(lastMax, potentialMax);
-//	}
+	
+	/********
+	 * ALGORITHM B
+	 * @param profits
+	 * @return maxPerformance (int)
+	 */
 	
 	public int algorithmBforStrength(int [] profits)
 	{

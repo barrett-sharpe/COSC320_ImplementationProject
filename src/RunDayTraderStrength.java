@@ -11,21 +11,10 @@ public class RunDayTraderStrength {
 		
 		DayTraderStrength dts = new DayTraderStrength();
 		
-//		int [] a = {-1, -3, -2, 7, -7, 54, -41, 8, -2, -4, -6, -30}; // 10
-//		
-//		int x = dts.algorithmAforStrength(a);
-//		int y = dts.algorithmBforStrength(a);
-//		
-//		System.out.println("\n\n\n***********\n\nActual Result: 18");
-//		
-//		System.out.println("Algorithm A: " + x);
-//		
-//		System.out.println("Algorithm B: " + y + "\n\n*************");
 		
+		int [] profits = new int[1000];
 		
-		int [] profits = new int[30];
-		
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 1000; i++) {
 			profits[i] = rdm.nextInt(1000000) - 500000;
 		}
 		
