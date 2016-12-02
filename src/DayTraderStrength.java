@@ -2,28 +2,6 @@ import java.util.ArrayList;
 
 public class DayTraderStrength {
 	
-//	public int algorithmAforStrength(int [] profits) {
-//		int sum = 0;
-//		int curmax = 0;
-//		
-//		for(int i=1;i<profits.length;i++){
-//			for(int n=0;n+i<profits.length;n++){
-//				sum = sumSubArray(n, n+i, profits);
-//				if (curmax < sum)
-//					curmax = sum;
-//			}
-//		}
-//		return curmax;
-//	}
-//	
-//	private int sumSubArray(int a,int b, int[] arr) {
-//		int sum = 0;	
-//		for(int i=a;i<b;i++) {
-//			sum = sum + arr[i];
-//		}
-//		return sum;
-//	}
-	
 	public int algorithmAforStrength(int [] profits)
 	{
 		int max = 0;
@@ -44,89 +22,290 @@ public class DayTraderStrength {
 		return max;
 	}
 	
-	/********
-	 * ALGORITHM B
-	 * @param profits
-	 * @return maxPerformance (int)
-	 */
-	
 	public int algorithmBforStrength(int [] profits)
 	{
-		// Get simplified profits (sequential positive and negative days are added together).
+		// First, we get a condensed profits list
 		ArrayList<Integer> condensedProfits = simplify(profits);
 		
-		// First entry is always positive, so the potentialMax is set to that.
-		int potentialMax = condensedProfits.get(0);
+		if (condensedProfits.get(0) < 0)
+		{
+			/*****
+			 * If the first element in condensedProfits is negative
+			 * then because of the way the simplifying method works
+			 * we know that the this first value is the only value
+			 * and it represents the best day the trader had, even
+			 * if it still wasn't a profitable day.
+			 */ 
+			return condensedProfits.get(0);
+		}
 		
-		int lastMax = 0;
+		// We know condensedProfits will always starts with the combined
+		// performance of the first set of consecutive profitable days.
 		
-//		int otherPossibleMax = 0;
+		// Best So Far (bsf)
+		int bsf = condensedProfits.get(0);
 		
-		/***************
-		 * MAIN LOOP
-		 * For each entry of condensedProfits (alternating between positive and negative),
-		 * if the next negative and positive combine to be an improvement on potentialMax (i.e. are > 0)
-		 * AND the current potentialMax is greater than the absolute value of the next negative,
-		 * then combining all three get you the highest possible potentialMax so far.
-		 * If the next negative and positive combine to less than 0, then the consecutive chain is broken
-		 * and the current potentialMax is stored away (lastMax) to be checked against the next potentialMax
-		 * either when the next consecutive chain is broken, or we reach the end of the condensedProfits
-		 * list. If potentialMax > lastMax, lastMax gets the value of potentialMax. Then, finally, we return
-		 * the greater of lastMax or potentialMax.
-		 */
+		// Current Consecutive Performance (ccp)
+		int ccp = bsf;
 		
+		// ArrayList index
 		int i = 0;
 		
-		// Only need to go through the loop if there is a next negative and positive left to check.
-		while (i < condensedProfits.size() - 2)
+		// Just so this doesn't need to be recalculated with each iteration.
+		int iStop = condensedProfits.size() - 2;
+		
+		// Begin Loop
+		while (i < iStop)
 		{
-			// Setting quick-to-reference integers for next two values (since we always start with a positive,
-			// and then alternate, we can know which is which).
+			// Because of the structure of condensedProfits, we know that
+			// the next 2 elements will be a negative followed by a positive
 			int neg = condensedProfits.get(i+1);
 			int pos = condensedProfits.get(i+2);
 			
-			if (neg + pos >= 0 || potentialMax + neg >= 0)
+			if (pos > ccp)
 			{
-				if (neg + pos >= 0 && potentialMax + neg > 0)
+				if (pos + neg > 0) // i.e. pos > -neg
 				{
-					potentialMax += neg + pos;
-				}
-				else if (potentialMax + neg > 0)
-				{
-					if (potentialMax + neg + pos > pos)
+					if (ccp + neg > 0) // i.e. ccp > -neg
 					{
-						potentialMax += neg + pos;
+						if (ccp > neg + pos)
+						{
+							if (pos > ccp + neg)
+							{
+								ccp += pos + neg;
+								bsf = Math.max(bsf, ccp);
+							}
+						}
+						else
+						{
+							if (pos > ccp + neg)
+							{
+								ccp += pos + neg;
+								bsf = Math.max(bsf, ccp);
+							}
+						}
+					}
+					else // ccp <= -neg
+					{
+						if (ccp > neg + pos)
+						{
+							if (pos > ccp + neg)
+							{
+								ccp = pos;
+								bsf = Math.max(bsf, ccp);
+							}
+						}
+						else // ccp < neg + pos
+						{
+							if (pos > ccp + neg)
+							{
+								ccp = pos;
+								bsf = Math.max(bsf, ccp);
+							}
+						}
 					}
 				}
-				else
+				else // pos <= -neg
 				{
-					potentialMax = pos;
+					if (ccp + neg > 0) // i.e. ccp > -neg
+					{
+						if (ccp > neg + pos)
+						{
+							if (pos > ccp + neg)
+							{
+								
+							}
+							else
+							{
+								
+							}
+						}
+						else // ccp <= neg + pos
+						{
+							if (pos > ccp + neg)
+							{
+								
+							}
+							else
+							{
+								
+							}
+						}
+					}
+					else // ccp <= -neg
+					{
+						if (ccp > neg + pos)
+						{
+							if (pos > ccp + neg)
+							{
+								ccp = pos;
+								bsf = Math.max(bsf, ccp);
+							}
+							else
+							{
+								
+							}
+						}
+						else
+						{
+							if (pos > ccp + neg)
+							{
+								
+							}
+							else
+							{
+								
+							}
+						}
+					}
 				}
 			}
-			else
+			else // pos <= ccp
 			{
-				// make lastMax the greater of itself or potentialMax
-				lastMax = Math.max(lastMax, potentialMax);
-				potentialMax = pos;
+				if (pos + neg > 0) // i.e. pos > -neg
+				{
+					if (ccp + neg > 0) // i.e. ccp > -neg
+					{
+						if (ccp > neg + pos)
+						{
+							if (pos > ccp + neg)
+							{
+								ccp += pos + neg;
+								bsf = Math.max(bsf, ccp);
+							}
+							else
+							{
+								ccp += pos + neg;
+								bsf = Math.max(bsf, ccp);
+							}
+						}
+						else
+						{
+							if (pos > ccp + neg)
+							{
+								
+							}
+							else
+							{
+								
+							}
+						}
+					}
+					else // ccp <= -neg
+					{
+						if (ccp > neg + pos)
+						{
+							if (pos > ccp + neg)
+							{
+								
+							}
+							else
+							{
+								
+							}
+						}
+						else
+						{
+							if (pos > ccp + neg)
+							{
+								
+							}
+							else
+							{
+								
+							}
+						}
+					}
+				}
+				else // pos <= -neg
+				{
+					if (ccp + neg > 0) // i.e. ccp > -neg
+					{
+						if (ccp > neg + pos)
+						{
+							if (pos > ccp + neg)
+							{
+								bsf = Math.max(bsf, ccp);
+								ccp += pos + neg;
+							}
+							else
+							{
+								bsf = Math.max(bsf, ccp);
+								ccp += pos + neg;
+							}
+						}
+						else
+						{
+							if (pos > ccp + neg)
+							{
+								
+							}
+							else
+							{
+								
+							}
+						}
+					}
+					else // ccp <= -neg
+					{
+						if (ccp > neg + pos)
+						{
+							if (pos > ccp + neg)
+							{
+								bsf = Math.max(bsf, ccp);
+								ccp = pos;
+							}
+							else
+							{
+								
+							}
+						}
+						else
+						{
+							if (pos > ccp + neg)
+							{
+								
+							}
+							else
+							{
+								
+							}
+						}
+					}
+				}
 			}
 			
-			// iterate by two (so we are looking at the next neg/pos pair, if both exist)
+			// Iterate
 			i = i + 2;
 		}
 		
-		return Math.max(lastMax, potentialMax);
+		return Math.max(bsf, ccp);
 	}
 
+	/*****
+	 * Profits Array Simplification
+	 * @param profits -> the array of the day traders daily performance
+	 * @return A simplified list where the first entry is the sum
+	 * 			of the first positive profit day with all consecutive
+	 * 			days of positive profit after, followed by the sum
+	 * 			of the first negative profit day with all consecutive
+	 * 			days of negative profit after, then alternating between
+	 * 			sums of consecutive positive days and consecutive negative
+	 * 			days until all elements of the original profits array
+	 * 			have been traced through.
+	 */
 	public ArrayList<Integer> simplify(int [] profits)
 	{
 		
 		ArrayList<Integer> simplifiedProfits = new ArrayList<Integer>();
 		
 		int i = 0;
+		int leastNegative = Integer.MIN_VALUE;
 		
 		// ignore any starting days with non-positive profits
 		while (profits[i] <= 0 && i < profits.length)
 		{
+			leastNegative = Math.max(leastNegative, profits[i]);
 			i++;
 		}
 		
@@ -177,10 +356,12 @@ public class DayTraderStrength {
 			// Add the final entry to simplifiedProfits
 			simplifiedProfits.add(curVal);
 		}
-		// Else, the trader never made a profit. simplifiedProfits list = { 0 }.
 		else
 		{
-			simplifiedProfits.add(0);
+			// Else, the trader never made a profit.
+			// In this case, the least negative single day
+			// is their best
+			simplifiedProfits.add(leastNegative);
 		}
 
 		return simplifiedProfits;

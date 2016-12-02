@@ -11,26 +11,26 @@ public class RunDayTraderStrength {
 		
 		DayTraderStrength dts = new DayTraderStrength();
 		
+		int entries = 10000000;
 		
-		int [] profits = new int[1000];
+		int [] profits = new int[entries];
 		
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < entries; i++) {
 			profits[i] = rdm.nextInt(1000000) - 500000;
 		}
 		
-		System.out.println("Starting A");
-		long astart = System.currentTimeMillis();
-		int a = dts.algorithmAforStrength(profits);
-		long afinish = System.currentTimeMillis();
-		long atime = afinish-astart;
-		System.out.println("Algorithm A (10000) = " + a + " (calculated in " + atime + " milliseconds)");
+//		System.out.println("Starting A");
+//		long astart = System.currentTimeMillis();
+//		int a = dts.algorithmAforStrength(profits);
+//		long afinish = System.currentTimeMillis();
+//		long atime = afinish-astart;
+//		System.out.printf("Algorithm A (for %d random entries) = %d\n(calculated in %d milliseconds)\n", entries, a, atime);
 		
 		System.out.println("\nStarting B");
 		long bstart = System.currentTimeMillis();
 		int b = dts.algorithmBforStrength(profits);
 		long bfinish = System.currentTimeMillis();
 		long btime = bfinish-bstart;
-		System.out.println("Algorithm B (10000) = " + b + " (calculated in " + btime + " milliseconds)");
+		System.out.printf("Algorithm B (for %d random entries) = %d\n(calculated in %d milliseconds)", entries, b, btime);
 	}
-
 }
